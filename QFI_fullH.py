@@ -3,17 +3,18 @@ import matplotlib.pyplot as plt
 from qutip import destroy, sigmax, sigmaz, qeye, tensor
 
 # Parameters
-N = 60 # Bosonic truncation (max number of photons)
+N = 60 # Bosonic truncation (max number of photons); tweak this parameter if you wish
 Delta = 1.0  # Qubit energy splitting
 omega = 5e-5  # Oscillator frequency
+#We fixed w/Delta = 5e-5
 domega = Delta * omega
 
 # Critical parameter (e.g., critical coupling in some limits)
 gamma_c = 1.0 / np.sqrt(2) # Defines the upper limit for gamma
-gamma_vals = np.linspace(0, gamma_c, 100)
+gamma_vals = np.linspace(0, gamma_c, 100) #gamma is defined in the normal phase only
 # g = gamma * sqrt(Delta * omega)
 g_vals = gamma_vals * np.sqrt(domega)
-dg = 1e-6 * np.sqrt(domega) # Infinitesimal step for finite difference
+dg = 1e-6 * np.sqrt(domega) # Infinitesimal step for finite difference. Minimize truncation and round-off error
 
 # Operators
 a = destroy(N)
@@ -38,7 +39,7 @@ def groundstate(g):
     H = H_rabi(g)
     # Calculate all eigenstates and eigenvalues
     evals, evecs = H.eigenstates()
-    return evecs[0]  # Return the lowest energy eigenstate (ground state)
+    return evecs[0]  # Return the lowest energy eigenstate (ground state). Alternative to H.groundstate
 
 # Centered finite difference of the state |ψ⟩ with respect to g
 def dpsi_dg(g):
@@ -76,11 +77,23 @@ qfi_vals = np.array([QFI(g) for g in g_vals])
 # Plot
 plt.figure(figsize=(7, 5))
 plt.plot(gamma_vals, qfi_vals, label=r"$F_Q \text{ vs } \gamma \quad (N=" + str(N) + r")$")
-# Add a vertical line at the critical gamma value
+
+
 plt.axvline(x=gamma_c, color='r', linestyle='--', linewidth=1, label=r"$\gamma_c = 1/\sqrt{2}$")
 plt.yscale("log")
-plt.xlabel(r"$\gamma = g/\sqrt{\Delta\omega}$")
-plt.ylabel(r"$F_Q$")
+
+
+plt.xticks([0, gamma_c], [r"$0$", r"$\gamma_c$"], fontsize=13)
+
+
+plt.xlabel(r"$\gamma $", fontsize=13)
+plt.ylabel(r"$F_Q(g)$", fontsize=13)
+plt.yticks(fontsize=13) 
+
+
+plt.legend(fontsize=13)
+
+
 plt.grid(True, which='both', ls='--', alpha=0.5)
 plt.tight_layout()
 plt.legend()
