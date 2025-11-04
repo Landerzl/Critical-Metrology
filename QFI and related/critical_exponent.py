@@ -31,7 +31,7 @@ gamma_vals = gamma_c - delta_gamma_vals
 
 # g = gamma * sqrt(Delta * omega)
 g_vals = gamma_vals * np.sqrt(domega)
-dg = 1e-6 * np.sqrt(domega) # Infinitesimal step for finite difference. (same as in other fi
+dg = 1e-6 * np.sqrt(domega) # Infinitesimal step for finite difference. (same as usual)
 
 
 # Operators
@@ -120,16 +120,18 @@ plt.plot(ref_line_x, ref_line_y, color='green', linestyle=':', linewidth=2,
 # from min_delta_gamma (left) to gamma_c (right)
 plt.plot(delta_gamma_vals, qfi_vals, label=r"$F_Q \text{ vs } \gamma_c - \gamma \quad (N=" + str(N) + r")$")
 
+
+plt.axvline(x=gamma_c, color='red', linestyle='--', label=r'$\gamma = 0$')
 # Set both scales to logarithmic
 plt.yscale("log")
 plt.xscale("log")
 
 plt.xlabel(r"$\gamma_c - \gamma$", fontsize=14)
 plt.ylabel(r"$F_Q(g)$", fontsize=14)
-plt.xticks(fontsize=14) 
-plt.yticks(fontsize=14) 
+plt.xticks(fontsize=15) 
+plt.yticks(fontsize=15) 
 
-plt.legend(fontsize=14)
+plt.legend(fontsize=15)
 plt.grid(True, which='both', ls='--', alpha=0.5)
 plt.tight_layout()
 plt.show() 
