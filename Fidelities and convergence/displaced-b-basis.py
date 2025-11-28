@@ -61,7 +61,7 @@ def displaced_squeezed_rabi_ground_state(N, omega, Delta, gamma):
     Delta_tilde = np.sqrt(Delta**2 + (2*g*alpha_s)**2)
 
     # Squeezing parameter r
-    arg = 1 - (4 * g**2 * Delta**2) / (omega * Delta_tilde**3)
+    arg = 1 + (4 * g**2 * Delta**2) / (omega * Delta_tilde**3)
     r = -0.25 * np.log(arg)
 
     # Rotation angles

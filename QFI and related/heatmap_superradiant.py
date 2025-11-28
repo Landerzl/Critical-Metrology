@@ -27,8 +27,6 @@ qfi_matrix = np.zeros((num_omega, gamma_points))
 # ====================================================================
 # 2. OPERATORS AND HELPERS (displaced Rabi, qubit ⊗ boson)
 # ====================================================================
-
-# Qubit ⊗ boson operators
 a = tensor(qeye(2), destroy(N))
 adag = a.dag()
 num = adag * a
@@ -119,7 +117,7 @@ finite_max = np.max(log_qfi_matrix[np.isfinite(log_qfi_matrix)])
 log_qfi_matrix[np.isinf(log_qfi_matrix)] = finite_max
 
 # ====================================================================
-# 4. HEATMAP (Aesthetics improved)
+# 4. HEATMAP
 # ====================================================================
 
 plt.figure(figsize=(8, 6)) 
@@ -133,7 +131,7 @@ ax = sns.heatmap(
     cbar_kws={'label': r'$\log_{10}(F_Q)$'}
 )
 
-# --- Y-axis Ticks/Labels (Modified for 50 bands, LaTeX, and increased size) ---
+# --- Y-axis Ticks/Labels ---
 # Calculate the y-coordinates for the center of the first and last rows
 y_ticks = [0.5, num_omega - 0.5]
 
@@ -146,7 +144,7 @@ ax.set_yticks(y_ticks)
 ax.set_yticklabels(y_labels_latex, fontsize=16) 
 # -----------------------------------------------------------------------------
 
-# X-axis Ticks (Modified to show gamma_c and 2*gamma_c)
+# X-axis Ticks 
 plt.xticks([0, gamma_points - 1], [r"$\gamma_c$", r"$2\gamma_c$"], fontsize=16)
 
 plt.xticks(rotation=0)
