@@ -115,11 +115,13 @@ for i, (om, g_val) in enumerate(param_list):
              marker='o', linestyle=linestyles[i % len(linestyles)],
              label=label)
 
+
+ax2.set_ylim(0.9, 1.01)
 ax2.set_xlabel(r'Fock cutoff $N$')
 ax2.set_ylabel(r'Fidelity $\mathcal{F}(|\psi_N\rangle, |\psi_{N-1}\rangle)$')
 ax2.axhline(y=1.0, color='red', linestyle='--', linewidth=1)
-ax2.set_ylim(0.5, 1.05)
 ax2.legend(title=fr'$\gamma={GAMMA_FIXED}$', frameon=False)
 fig2.tight_layout()
 
 plt.show()
+
