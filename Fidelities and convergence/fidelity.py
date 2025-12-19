@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 # ----- Fixed parameters -----
 Delta = 1.0 # Fixed qubit frequency
-GAMMA_1_FIXED = 1/np.sqrt(2) # Fixed normalized coupling parameter (γ₁)
+GAMMA_1_FIXED = 1/np.sqrt(2) +0.05 # Fixed normalized coupling parameter (γ₁)
 
 # ----- w values to compare (approachig the class oscillator limit) -----
 omega_list = np.array([0.5, 0.05, 0.005, 0.0005,0.00005])
@@ -81,46 +81,55 @@ for om, g_val in param_list:
 
 # ----- Plot config -----
 plt.rcParams.update({
-    "figure.figsize": (6.0, 3.5),
+    "figure.figsize": (10, 6),
     "font.size": 12,
     "font.family": "serif",
     "axes.labelsize": 14,
- "legend.fontsize": 12,
-    "xtick.labelsize": 12,
-    "ytick.labelsize": 12,
+    "legend.fontsize": 12,
     "axes.grid": True,
     "grid.alpha": 0.3,
     "lines.linewidth": 1.2,
     "lines.markersize": 5,
 })
+
+
 linestyles = ['-', '--', '-.', ':']
+markers_list = ['o', 's', '^', 'D', 'v'] 
 
 
 # ----- Figure 1: Ground Energy -----
 fig1, ax1 = plt.subplots()
 for i, (om, g_val) in enumerate(param_list):
     label = fr'$\omega = {om}$, $\gamma_1 = \gamma_c$'
+    current_marker = markers_list[i % len(markers_list)]
+    
     ax1.plot(N_list, E0_dict[(om, g_val)],
-             marker='x', linestyle=linestyles[i % len(linestyles)],
+             marker=current_marker, 
+             linestyle=linestyles[i % len(linestyles)],
              label=label)
+             
 ax1.set_xlabel(r'Fock cutoff $N$')
 ax1.set_ylabel(r'Ground energy $E_0(N)$')
 ax1.legend(frameon=False, title=r'$\omega$')
 fig1.tight_layout()
 
-# ----- Figure 2: Fidelity F(|psi_N>, |psi_{N-1}>) vs Fock Cutoff N ----- Very good indicator of convergence.
+# ----- Figure 2: Fidelity F(|psi_N>, |psi_{N-1}>) vs Fock Cutoff N 
 fig2, ax2 = plt.subplots()
 for i, (om, g_val) in enumerate(param_list):
-    label = fr'$\omega = {om}$, $\gamma_1 = \gamma_c$'
+    label = fr'$\omega = {om}$, $\gamma_1 = \gamma_c + 0.05$'
+   
+    current_marker = markers_list[i % len(markers_list)]
+    
     ax2.plot(N_list[1:], Fidelity_dict[(om, g_val)][1:],
-             marker='o', linestyle=linestyles[i % len(linestyles)],
+             marker=current_marker, 
+             linestyle=linestyles[i % len(linestyles)],
              label=label)
 
 ax2.set_xlabel(r'Fock cutoff $N$')
 ax2.set_ylabel(r'Fidelity $\mathcal{F}(|\psi_N\rangle, |\psi_{N-1}\rangle)$')
 ax2.axhline(y=1.0, color='red', linestyle='--', linewidth=1)
 ax2.set_yscale('linear')
-ax2.set_ylim(-0.2, 1.3)
+ax2.set_ylim(-0.05, 1.05)
 ax2.legend(frameon=False, title=r'$\omega$')
 fig2.tight_layout()
 

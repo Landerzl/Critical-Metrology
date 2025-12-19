@@ -40,7 +40,6 @@ sx = sigmax()
 sz = sigmaz()
 
 def H_rabi(g, omega_val):
-    """Rabi Hamiltonian with the given oscillator frequency."""
     # H0: Boson (tensor(Boson, Qubit))
     H0 = omega_val * tensor(adag * a, I_q)
     # H1: Qubit (tensor(Boson, Qubit))
@@ -53,7 +52,7 @@ def groundstate(g, omega_val):
     """Calculates the ground state for given g and omega."""
     H = H_rabi(g, omega_val)
     # Use .groundstate() as a faster alternative to .eigenstates()[0]
-    _, psi0 = H.groundstate() 
+    _, psi0 = H.groundstate()
     return psi0
 
 def dpsi_dg(g, omega_val, dg_val):
@@ -95,7 +94,7 @@ for i, omega in enumerate(omega_list):
     print(f"Band {i+1}/{num_omega} (omega={omega:.2e}) calculated.")
 
 # Logarithmic transformation for the heatmap
-log_qfi_matrix = np.log10(qfi_matrix + 1e-10) 
+log_qfi_matrix = np.log10(qfi_matrix + 1e-10)
 # Ensure no infinities (if a value is 0)
 finite_max = np.max(log_qfi_matrix[np.isfinite(log_qfi_matrix)])
 log_qfi_matrix[np.isinf(log_qfi_matrix)] = finite_max
@@ -104,14 +103,14 @@ log_qfi_matrix[np.isinf(log_qfi_matrix)] = finite_max
 # 4. HEATMAP
 # ====================================================================
 
-plt.figure(figsize=(8, 6)) 
+plt.figure(figsize=(8, 6))
 
 sns.set(font_scale=1.2)
 ax = sns.heatmap(
     log_qfi_matrix,
-    cmap="magma",
-    xticklabels=False,        
-    yticklabels=True, 
+    cmap="magma_r",
+    xticklabels=False,
+    yticklabels=True,
     cbar_kws={'label': r'$\log_{10}(F_Q)$'}
 )
 
@@ -119,7 +118,7 @@ ax = sns.heatmap(
 # Calculate the y-coordinates for the center of the first and last rows
 y_ticks = [0.5, num_omega - 0.5]
 
-y_labels_latex = [r'$5 \cdot 10^{-1}$', r'$5 \cdot 10^{-5}$'] 
+y_labels_latex = [r'$5 \cdot 10^{-1}$', r'$5 \cdot 10^{-5}$']
 
 ax.set_yticks(y_ticks)
 ax.set_yticklabels(y_labels_latex, fontsize=16) # Font size increased here

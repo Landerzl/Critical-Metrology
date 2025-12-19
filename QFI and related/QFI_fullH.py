@@ -75,7 +75,7 @@ def QFI(g):
 qfi_vals = np.array([QFI(g) for g in g_vals])
 
 # Plot
-plt.figure(figsize=(7, 5))
+plt.figure(figsize=(6, 4))
 plt.plot(gamma_vals, qfi_vals, label=r"$F_Q \text{ vs } \gamma \quad (N=" + str(N) + r")$")
 
 

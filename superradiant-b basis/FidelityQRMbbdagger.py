@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 # ----- Fixed parameters -----
 Delta = 1.0  # Qubit splitting (Δ)
-GAMMA_FIXED = 0.8 
+GAMMA_FIXED = 0.8
 
 # ----- ω values to compare (approaching classical oscillator limit) -----
 omega_list = np.array([0.5, 0.05, 0.005, 0.0005, 0.00005])
@@ -98,7 +98,6 @@ def squeezed_hamiltonian_ground_state(N, omega, Delta, gamma):
 E0_dict = {}
 Fidelity_dict = {}
 
-print("Calculando fidelidades con el nuevo Hamiltoniano H_+...")
 
 for om, g_val in param_list:
     key = (om, g_val)
@@ -106,7 +105,6 @@ for om, g_val in param_list:
     psi_prev = None
     F_vals = [np.nan]
     
-    print(f"Procesando omega = {om}...")
 
     for N in N_list:
         E0, psi_N = squeezed_hamiltonian_ground_state(N, om, Delta, GAMMA_FIXED)

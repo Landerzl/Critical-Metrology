@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 # ----- Fixed parameters -----
 Delta = 1.0  # Qubit splitting (Δ)
-GAMMA_FIXED = 0.8 
+GAMMA_FIXED = 0.8
 
 # ----- ω values to compare (approaching classical oscillator limit) -----
 omega_list = np.array([0.5, 0.05, 0.005, 0.0005, 0.00005])
