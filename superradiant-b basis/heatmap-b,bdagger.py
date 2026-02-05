@@ -159,7 +159,7 @@ plt.figure(figsize=(8, 6))
 sns.set(font_scale=1.2)
 ax = sns.heatmap(
     log_qfi_matrix,
-    cmap="magma",
+    cmap="magma_r",
     xticklabels=False,        
     yticklabels=True, 
     cbar_kws={'label': r'$\log_{10}(F_Q)$'},
