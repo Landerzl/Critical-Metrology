@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import qutip as qt  # nuevo: usamos alias qt
+import qutip as qt 
 
 # Parameters
 N = 60  # Bosonic truncation (max number of photons)
