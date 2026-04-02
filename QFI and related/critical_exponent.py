@@ -70,7 +70,6 @@ qfi_vals = np.array([np.real(QFI(g)) for g in g_vals])
 plt.figure(figsize=(7, 5))
 
 # 1. Define X-axis
-# Change x-axis from (gamma_c - gamma) to (1 - gamma/gamma_c)
 x_axis = delta_gamma_vals / gamma_c
 
 # 2. Reference line with slope -2
