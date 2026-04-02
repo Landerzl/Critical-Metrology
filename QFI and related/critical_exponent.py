@@ -70,27 +70,28 @@ qfi_vals = np.array([np.real(QFI(g)) for g in g_vals])
 plt.figure(figsize=(7, 5))
 
 # 1. Define X-axis
-# Since delta_gamma_vals IS ALREADY (gamma_c - gamma), we use it directly as x
-x_axis = delta_gamma_vals
+# Change x-axis from (gamma_c - gamma) to (1 - gamma/gamma_c)
+x_axis = delta_gamma_vals / gamma_c
 
 # 2. Reference line with slope -2
-# We use the same range as the data for the reference line to match nicely
-x_ref = np.geomspace(min_delta_gamma, 1e-1, 10) # Visual range for the line
-C_ref = 0.5 
+# Adjust x_ref range to match the new normalized scale
+x_ref = np.geomspace(min_delta_gamma / gamma_c, 1e-1 / gamma_c, 10) 
+# Adjust C_ref so the line visually stays in the exact same place relative to the data
+C_ref = 0.5 * (gamma_c**2) 
 y_ref = C_ref * x_ref**(-2)
 
 # 3. Plot reference
 plt.loglog(x_ref, y_ref, color='green', linestyle=':', linewidth=2, label="Slope -2 reference")
 
 # 4. Plot main data
-plt.loglog(x_axis, qfi_vals, label=r"$F_Q$ vs $\gamma_c - \gamma \quad (N=" + str(N) + r")$")
+plt.loglog(x_axis, qfi_vals, label=r"$F_Q$ vs $1 - \gamma/\gamma_c \quad (N=" + str(N) + r")$")
 
 # 5. Vertical line for gamma = 0
-# At gamma=0, the distance (x-axis) is exactly gamma_c
-plt.axvline(x=gamma_c, color='r', linestyle='--', label=r"$\gamma = 0$")
+# At gamma = 0, 1 - gamma/gamma_c = 1.0
+plt.axvline(x=1.0, color='r', linestyle='--', label=r"$\gamma = 0$")
 
 # --- Styles ---
-plt.xlabel(r"$\gamma_c - \gamma$", fontsize=13)
+plt.xlabel(r"$1 - \gamma/\gamma_c$", fontsize=13)
 plt.ylabel(r"$F_Q(g)$", fontsize=13)
 plt.tick_params(labelsize=13)
 

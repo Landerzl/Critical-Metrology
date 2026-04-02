@@ -83,7 +83,7 @@ def get_groundstate_squeezed(g, N, omega_val, Delta_val):
     return states[0]
 
 # ====================================================================
-# 3. MAIN LOOP (MODIFIED)
+# 3. MAIN LOOP
 # ====================================================================
 
 # Sweep normalized coupling lambda = g / g_c
@@ -111,7 +111,7 @@ for val in gamma_super:
     entropy_super.append(entropy_vn(rho_spin, base=2))
 
 # ====================================================================
-# 4. VISUALIZATION (MODIFIED)
+# 4. VISUALIZATION
 # ====================================================================
 plt.figure(figsize=(9, 6))
 
@@ -127,8 +127,12 @@ plt.plot(gamma_super, entropy_super, '--', linewidth=2, markersize=4,
 plt.axvline(x=1.0, color='r', linestyle=':', linewidth=1.5, 
             label=r'Critical Point ($\gamma = \gamma_c$)')
 
-plt.xlabel(r'$\gamma/\gamma_c$', fontsize=12)
-plt.ylabel(r'Von Neumann Entropy $S_{VN}$', fontsize=12)
+# ---> AQUÍ AGRANDAS LA LETRA DE LOS TICKS <---
+plt.tick_params(axis='both', which='major', labelsize=14) 
+
+# Puedes ajustar el fontsize de las etiquetas a 14 o 16 para que hagan juego
+plt.xlabel(r'$\gamma/\gamma_c$', fontsize=16)
+plt.ylabel(r'Von Neumann Entropy $S_{VN}$', fontsize=16)
 
 plt.legend(fontsize=11)
 plt.grid(True, which='both', alpha=0.3)
