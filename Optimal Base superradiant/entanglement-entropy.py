@@ -127,10 +127,8 @@ plt.plot(gamma_super, entropy_super, '--', linewidth=2, markersize=4,
 plt.axvline(x=1.0, color='r', linestyle=':', linewidth=1.5, 
             label=r'Critical Point ($\gamma = \gamma_c$)')
 
-# ---> AQUÍ AGRANDAS LA LETRA DE LOS TICKS <---
 plt.tick_params(axis='both', which='major', labelsize=14) 
 
-# Puedes ajustar el fontsize de las etiquetas a 14 o 16 para que hagan juego
 plt.xlabel(r'$\gamma/\gamma_c$', fontsize=16)
 plt.ylabel(r'Von Neumann Entropy $S_{VN}$', fontsize=16)
 
