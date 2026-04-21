@@ -196,14 +196,3 @@ In the **superradiant phase**, the Hamiltonian is expressed in a displaced-squee
 This project is open source. Feel free to use, modify, and distribute the code. If you use it in your own work, a citation or acknowledgement would be appreciated!
 
 ---
-
-## Contributing
-
-Contributions, bug reports, and suggestions are welcome! Feel free to:
-
-- Open an [Issue](https://github.com/Landerzl/Critical-Metrology/issues)
-- Submit a [Pull Request](https://github.com/Landerzl/Critical-Metrology/pulls)
-
----
-
-**Made with QuTiP** — *If you found this useful, consider giving the repo a star!*
