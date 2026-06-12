@@ -91,7 +91,7 @@ plt.axvline(x=1.0, color='r', linestyle='--', label=r"$\gamma = 0$")
 
 # --- Styles ---
 plt.xlabel(r"$1 - \gamma/\gamma_c$", fontsize=13)
-plt.ylabel(r"$F_Q(g)$", fontsize=13)
+plt.ylabel(r"$F_Q(\varrho_g)$", fontsize=13)
 plt.tick_params(labelsize=13)
 
 # Grid (x-axis only)

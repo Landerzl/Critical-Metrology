@@ -87,7 +87,7 @@ plt.xticks([0, gamma_c], [r"$0$", r"$\gamma_c$"], fontsize=13)
 
 
 plt.xlabel(r"$\gamma $", fontsize=13)
-plt.ylabel(r"$F_Q(g)$", fontsize=13)
+plt.ylabel(r"$F_Q(\varrho_g)$", fontsize=13)
 plt.yticks(fontsize=13) 
 
 
