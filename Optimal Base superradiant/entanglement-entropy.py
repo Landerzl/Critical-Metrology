@@ -5,7 +5,7 @@ from qutip import *
 # ====================================================================
 # 0. CONFIGURATION AND PHYSICAL PARAMETERS
 # ====================================================================
-omega = 5e-5     # Oscillator frequency
+omega = 5e-2     # Oscillator frequency
 Delta = 1.0       # Qubit parameter (Coefficient of sigma_z)
 N_normal = 50     # Fock cutoff for Normal Phase
 N_squeezed = 50   # Fock cutoff for Superradiant Phase
