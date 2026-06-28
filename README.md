@@ -61,8 +61,15 @@ Critical-Metrology/
 │   ├── SW_vs_QRM.py                                # SW effective H vs full Rabi comparison
 │   └── Superradiant-signoscillator.py              # Sign of the effective oscillator freq.
 │
-├── Further derivations/                          # Supplementary analytical PDF documents
+├── Post-submission-checks/                       # Post-submission validations
+│   ├── Fidelity.py                                 # Post-submission fidelity checks
+│   └── Heatmap.py                                  # Post-submission heatmap verification
+│
+├── Appendices/                                   # Supplementary analytical PDF documents
+│   ├── ExtraAppendices.pdf                         # Additional appendices including qCRB
+│   ├── Extra_on_Schrieffer_Wolff.pdf               # Further details on Schrieffer-Wolff
 │   ├── Finite_difference_step.pdf                  # Optimal finite-difference step analysis
+│   ├── More_on_parameter_estimation.pdf            # Extended parameter estimation notes
 │   ├── QFI_SW1__extended_calculation_.pdf          # QFI from 1st-order SW (extended)
 │   └── QFI_SW2__extended_calculation_.pdf          # QFI from 2nd-order SW (extended)
 │
