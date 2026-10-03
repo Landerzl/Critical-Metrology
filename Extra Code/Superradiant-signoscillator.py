@@ -15,7 +15,8 @@ gamma_vals = np.linspace(gamma_c, 2*gamma_c, 300)
 # Functions
 # -----------------------------------------
 def alpha_s(gamma):
-    return np.sqrt(gamma**2 - 1/(4 * gamma**2))
+    # physical displacement alpha_s = x * sqrt(Delta/omega)  (corrected: the factor sqrt(Delta/omega) was missing)
+    return np.sqrt(np.maximum(gamma**2 - 1/(4 * gamma**2), 0.0)) * np.sqrt(Delta / omega)
 
 def g(gamma):
     return gamma * np.sqrt(omega * Delta)

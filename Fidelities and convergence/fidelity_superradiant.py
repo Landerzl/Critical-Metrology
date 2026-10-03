@@ -49,7 +49,7 @@ def displaced_rabi_ground_state(N, omega, Delta, gamma):
     # Coupling constants
     g = gamma * np.sqrt(omega * Delta)
     radicand = gamma**2 - 1.0/(4.0 * gamma**2)
-    alpha = np.sqrt(max(radicand, 0.0))  # + root only
+    alpha = np.sqrt(max(radicand, 0.0)) * np.sqrt(Delta / omega)  # + root only; physical displacement (corrected)
 
     # Hamiltonian H'_+
     H = (omega * num

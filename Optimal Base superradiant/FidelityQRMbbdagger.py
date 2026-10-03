@@ -41,7 +41,7 @@ def squeezed_hamiltonian_ground_state(N, omega, Delta, gamma):
     # 1. Calculate Coupling and Alpha 
     g = gamma * np.sqrt(omega * Delta)
     radicand = gamma**2 - 1.0/(4.0 * gamma**2)
-    alpha_s = np.sqrt(max(radicand, 0.0)) 
+    alpha_s = np.sqrt(max(radicand, 0.0)) * np.sqrt(Delta / omega)   # physical displacement (corrected)
 
     # 2. Calculate Tilde_Delta and Angles (Diagonalizing the qubit part)
     # The qubit part in previous step was: Delta*sz + 2*g*alpha*sx
@@ -54,7 +54,7 @@ def squeezed_hamiltonian_ground_state(N, omega, Delta, gamma):
         sin2theta = 0.0
     else:
         cos2theta = Delta / Tilde_Delta
-        sin2theta = (2.0 * g * alpha_s) / Tilde_Delta
+        sin2theta = -(2.0 * g * alpha_s) / Tilde_Delta   # corrected sign: tan(2 theta) = -2 g alpha_s / Delta
 
     # 3. Calculate Squeezing Parameter r (Formula provided in image)
     # r = 1/4 * ln( 1 + (4 g^2 Delta^2) / (omega * Tilde_Delta^3) )

@@ -9,6 +9,8 @@
 
 *Numerical study of the Quantum Fisher Information and critical quantum metrology near the quantum phase transition of the Quantum Rabi Model.*
 
+> **Correction (October 2026).** The superradiant-phase scripts used for the thesis figures contained errors (sign of a coupling term, a missing `sqrt(Δ/ω)` in the displacement, and a QFI that ignored the coupling dependence of the transformed frame). They are fixed in this repository; see [CORRECTIONS.md](CORRECTIONS.md) for details, validation against exact diagonalization and the consequences for the thesis results.
+
 ---
 
 ## About
@@ -18,8 +20,8 @@ This repository contains all the numerical code (and supplementary derivations) 
 The project investigates how quantum parameter estimation precision — quantified by the **Quantum Fisher Information (QFI)** — diverges near the **quantum phase transition** of the QRM. The analysis covers:
 
 - **Normal phase** (γ < γ_c): Standard Fock-basis diagonalisation of the full Rabi Hamiltonian.
-- **Superradiant phase** (γ > γ_c): Displaced-squeezed basis representation to accelerate convergence.
-- **Critical exponents**: Log-log analysis showing F_Q ~ |γ - γ_c|^(-2).
+- **Superradiant phase** (γ > γ_c): Displaced-squeezed basis representation to accelerate convergence; the QFI of the *physical* state (frame derivative included, see `Physical-QFI/`).
+- **Critical exponents**: Log-log analysis showing F_Q ~ |γ - γ_c|^(-2) in the normal phase; the superradiant side follows a milder power law (≈ −0.6 at ω/Δ = 5·10⁻⁵).
 - **Analytical validation**: Comparison of numerically obtained ground states with Schrieffer–Wolff (SW) perturbative results.
 
 ---
@@ -53,6 +55,10 @@ Critical-Metrology/
 │   ├── heatmap-b,bdagger.py                        # QFI heatmap in the b, b† basis
 │   └── waterfall.py                                # 3D waterfall plot of QFI vs γ and ω
 │
+├── Physical-QFI/                                 # Validated physical-QFI module (superradiant phase)
+│   ├── physical_qfi.py                             # Frames, Hamiltonians, physical QFI, exact reference
+│   └── validate_against_exact.py                   # Validation against exact diagonalization
+│
 ├── Extra Code/                                   # Supplementary & exploratory scripts
 │   ├── Classical_Rabi.ipynb                        # Classical Rabi model (Jupyter notebook)
 │   ├── GSenergyminima.py                           # Ground-state energy landscape f(x, γ)
@@ -73,6 +79,7 @@ Critical-Metrology/
 │   ├── QFI_SW1__extended_calculation_.pdf          # QFI from 1st-order SW (extended)
 │   └── QFI_SW2__extended_calculation_.pdf          # QFI from 2nd-order SW (extended)
 │
+├── CORRECTIONS.md                                # What was wrong in the superradiant code, and what changed
 └── README.md
 ```
 
@@ -140,6 +147,9 @@ python "Optimal Base superradiant/waterfall.py"
 
 # Combined QFI heatmap (normal + superradiant)
 python "QFI and related/heatmap_combined.py"
+
+# Validate the superradiant-phase machinery against exact diagonalization (about a minute)
+python "Physical-QFI/validate_against_exact.py"
 ```
 
 The Jupyter notebook can be opened with:
@@ -170,10 +180,12 @@ Most scripts expose tunable physical parameters at the top of the file:
 |--------|---------------|
 | `QFI_fullH.py` | QFI diverges as γ → γ_c from the normal phase |
 | `QFI_bothphases.py` | Continuous QFI across normal → superradiant transition |
-| `critical_exponent.py` | Power-law F_Q ∝ \|1 − γ/γ_c\|^(−2) |
+| `critical_exponent.py` | Power-law F_Q ∝ \|1 − γ/γ_c\|^(−2) (normal phase) |
+| `critical_exponent-superradiant.py` | Physical QFI on the superradiant side: milder power law, ≈ −0.6 |
+| `validate_against_exact.py` | Corrected H_+ and physical QFI vs exact diagonalization |
 | `heatmap_combined.py` | Full QFI landscape in the (γ, ω) plane |
 | `fidelity_numericalVSanalytical.py` | SW analytical ground state matches numerics |
-| `entanglement-entropy.py` | Von Neumann entropy peaks at the QPT |
+| `entanglement-entropy.py` | Von Neumann entropy peaks at the QPT and decays on both sides |
 | `waterfall.py` | 3D view of QFI divergence for multiple ω values |
 
 ---
@@ -194,7 +206,7 @@ where the derivative is approximated as:
 
 with global phase alignment at each step to ensure numerical stability.
 
-In the **superradiant phase**, the Hamiltonian is expressed in a displaced-squeezed frame to improve Fock-space convergence dramatically for γ > γ_c.
+In the **superradiant phase**, the Hamiltonian is expressed in a displaced-rotated-squeezed frame, `|Ψ(g)⟩ = U(g)|φ(g)⟩`, to improve Fock-space convergence dramatically for γ > γ_c. Because `U` depends on `g`, the QFI of the physical state is `F_Q = 4(⟨χ|χ⟩ − |⟨φ|χ⟩|²)` with `|χ⟩ = ∂_g|φ⟩ + U†(∂_gU)|φ⟩`; differentiating `|φ⟩` alone is not the QFI of the physical state (see `Physical-QFI/physical_qfi.py` and [CORRECTIONS.md](CORRECTIONS.md)).
 
 ---
 

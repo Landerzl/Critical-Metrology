@@ -5,10 +5,10 @@ from qutip import *
 # ====================================================================
 # 0. CONFIGURATION AND PHYSICAL PARAMETERS
 # ====================================================================
-omega = 5e-2     # Oscillator frequency
+omega = 5e-5     # Oscillator frequency (value used for the thesis/paper figure; was 5e-2)
 Delta = 1.0       # Qubit parameter (Coefficient of sigma_z)
 N_normal = 50     # Fock cutoff for Normal Phase
-N_squeezed = 500   # Fock cutoff for Superradiant Phase
+N_squeezed = 50    # Fock cutoff for Superradiant Phase (corrected frame converges fast; was 500)
 
 # Theoretical Critical Point
 g_c = np.sqrt(Delta * omega / 2.0)
@@ -49,7 +49,7 @@ def get_groundstate_squeezed(g, N, omega_val, Delta_val):
     gamma_param = g / np.sqrt(omega_val * Delta_val)
     
     radicand = gamma_param**2 - 1.0 / (4.0 * gamma_param**2)
-    alpha_s = np.sqrt(max(radicand, 0.0))
+    alpha_s = np.sqrt(max(radicand, 0.0)) * np.sqrt(Delta_val / omega_val)   # physical displacement (corrected)
 
     Tilde_Delta = np.sqrt(Delta_val**2 + (2.0 * g * alpha_s)**2)
     
@@ -57,7 +57,7 @@ def get_groundstate_squeezed(g, N, omega_val, Delta_val):
         cos2theta, sin2theta = 1.0, 0.0
     else:
         cos2theta = Delta_val / Tilde_Delta
-        sin2theta = (2.0 * g * alpha_s) / Tilde_Delta
+        sin2theta = -(2.0 * g * alpha_s) / Tilde_Delta   # corrected sign: tan(2 theta) = -2 g alpha_s / Delta
 
     numerator_r = 4.0 * (g**2) * (Delta_val**2)
     denominator_r = omega_val * (Tilde_Delta**3)

@@ -54,7 +54,7 @@ def squeezed_hamiltonian_ground_state(N, omega, Delta, gamma):
         sin2theta = 0.0
     else:
         cos2theta = Delta / Tilde_Delta
-        sin2theta = (2.0 * g * alpha_s) / Tilde_Delta
+        sin2theta = -(2.0 * g * alpha_s) / Tilde_Delta   # corrected sign: tan(2 theta) = -2 g alpha_s / Delta
 
     # 3. Calculate Squeezing Parameter r (Formula provided in image)
     # r = 1/4 * ln( 1 + (4 g^2 Delta^2) / (omega * Tilde_Delta^3) )

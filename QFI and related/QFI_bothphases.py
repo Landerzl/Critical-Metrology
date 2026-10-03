@@ -1,3 +1,12 @@
+"""
+QFI across the transition at fixed omega/Delta: normal phase (full Rabi H) and superradiant phase.
+
+CORRECTED VERSION (see CORRECTIONS.md): the superradiant half uses the physical displacement
+alpha_s = sqrt(gamma^2 - 1/(4 gamma^2)) sqrt(Delta/omega) and the physical QFI, which includes the g-dependence
+of the displacement (Physical-QFI/physical_qfi.py, validated against exact diagonalization).
+"""
+import os
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import qutip as qt
@@ -14,7 +23,7 @@ gamma_c = 1.0 / np.sqrt(2)
 
 # Parameter grids for each phase
 gamma_vals_norm = np.linspace(0, gamma_c, 100)          # Normal phase
-gamma_vals_disp = np.linspace(gamma_c, 2 * gamma_c, 100)  # Displaced phase
+gamma_vals_disp = np.linspace(gamma_c * 1.001, 2 * gamma_c, 100)  # Displaced phase (start slightly above gamma_c)
 
 g_vals_norm = gamma_vals_norm * np.sqrt(domega)
 g_vals_disp = gamma_vals_disp * np.sqrt(domega)
@@ -72,67 +81,13 @@ qfi_norm = np.array([QFI_norm(g) for g in g_vals_norm], dtype=complex).real
 
 
 # ============================================================
-# 2) DISPLACED PHASE: Displaced Rabi Hamiltonian H'_+
+# 2) SUPERRADIANT PHASE: physical QFI in the displaced frame
 # ============================================================
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'Physical-QFI'))
+from physical_qfi import DisplacedModel, qfi_map  # noqa: E402
 
-# Operators (qubit ⊗ boson), consistent with your displaced Hamiltonian
-a_d    = qt.tensor(qt.qeye(2), qt.destroy(N))
-adag_d = a_d.dag()
-num_d  = adag_d * a_d
-sx_d   = qt.tensor(qt.sigmax(), qt.qeye(N))
-sz_d   = qt.tensor(qt.sigmaz(), qt.qeye(N))
-Id_d   = qt.tensor(qt.qeye(2), qt.qeye(N))
-
-def displaced_rabi_ground_state(N, omega, Delta, gamma):
-    """ 
-    Ground state of the displaced Hamiltonian:
-    H'_+ = ω a†a + Δ σ_z + ω α (a + a†)
-           + g σ_x (a + a†) + 2 g α σ_x + ω α²
-    with α = sqrt(γ² - 1/(4γ²))
-    and g = gamma * sqrt(ω Δ).
-    """
-    g = gamma * np.sqrt(omega * Delta)
-    radicand = gamma**2 - 1.0 / (4.0 * gamma**2)
-    alpha = np.sqrt(max(radicand, 0.0))
-
-    H = (omega * num_d
-         + Delta * sz_d
-         + omega * alpha * (a_d + adag_d)
-         + g * sx_d * (a_d + adag_d)
-         + 2.0 * g * alpha * sx_d
-         + omega * alpha**2 * Id_d)
-
-    E0, psi0 = H.groundstate()
-    return float(E0), psi0
-
-def groundstate_disp(g):
-    """ Ground state in the displaced phase. """
-    gamma = g / np.sqrt(omega * Delta)
-    _, psi0 = displaced_rabi_ground_state(N, omega, Delta, gamma)
-    return psi0
-
-def dpsi_dg_disp(g):
-    """ Derivative of the ground state wrt g (displaced phase). """
-    psi_p = groundstate_disp(g + dg)
-    psi_m = groundstate_disp(g - dg)
-    psi_0 = groundstate_disp(g)
-
-    phase_p = (psi_0.dag() * psi_p)
-    phase_m = (psi_0.dag() * psi_m)
-
-    psi_p = psi_p * np.exp(-1j * np.angle(phase_p))
-    psi_m = psi_m * np.exp(-1j * np.angle(phase_m))
-
-    return (psi_p - psi_m) / (2 * dg), psi_0
-
-def QFI_disp(g):
-    """ QFI in the displaced phase. """
-    dpsi, psi = dpsi_dg_disp(g)
-    overlap   = (psi.dag() * dpsi)
-    norm_dpsi2 = (dpsi.dag() * dpsi)
-    return 4 * (norm_dpsi2 - np.abs(overlap)**2)
-
-qfi_disp = np.array([QFI_disp(g) for g in g_vals_disp], dtype=complex).real
+log_qfi_disp, _ = qfi_map(DisplacedModel, [omega], gamma_vals_disp, cutoffs=(N, N + 20, N + 40))
+qfi_disp = 10.0 ** log_qfi_disp[0]
 
 
 # ======================

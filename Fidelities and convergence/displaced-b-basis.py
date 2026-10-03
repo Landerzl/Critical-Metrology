@@ -55,7 +55,7 @@ def displaced_squeezed_rabi_ground_state(N, omega, Delta, gamma):
     g = gamma * np.sqrt(omega * Delta)
 
     # α_s  (displacement)
-    alpha_s = np.sqrt(max(gamma**2 - 1/(4*gamma**2), 0))
+    alpha_s = np.sqrt(max(gamma**2 - 1/(4*gamma**2), 0)) * np.sqrt(Delta/omega)   # physical displacement (corrected)
 
     # Δ̃  (effective qubit gap)
     Delta_tilde = np.sqrt(Delta**2 + (2*g*alpha_s)**2)
